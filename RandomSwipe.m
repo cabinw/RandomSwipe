@@ -52,6 +52,7 @@ static inline CGPoint randomPointInside(const CGRect* rect) {
     NSTimer* _timer;
     id<UIATarget> _target;
     CGRect _boundingRect;
+    BOOL _hasFirstRun;
 }
 /** Uninstall the random swipe timer. */
 -(void)uninstall;
@@ -111,6 +112,10 @@ static void installInterruptHandler() {
 }
 
 -(void)performRandomSwipe {
+    if (!_hasFirstRun) {
+        _hasFirstRun = YES;
+        return;
+    }
     NSTimeInterval duration = randomIntervalBetween(kMinDuration, kMaxDuration);
     CGPoint fromPoint = randomPointInside(&_boundingRect);
     CGPoint toPoint = randomPointInside(&_boundingRect);
